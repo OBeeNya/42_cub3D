@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:11:47 by baubigna          #+#    #+#             */
-/*   Updated: 2022/09/23 11:07:46 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:08:29 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	ft_check_direction(t_init *init)
 			if (init->map[i][j] == 'S' || init->map[i][j] == 'N'
 				|| init->map[i][j] == 'W' || init->map[i][j] == 'E')
 			{
-				init->game->posX = j;
-				init->game->posY = i;
+				init->game->posx = j;
+				init->game->posy = i;
 				ft_init_dir(init, init->map[i][j]);
 				ft_init_plane(init, init->map[i][j]);
 				nswe++;
@@ -77,11 +77,7 @@ void	ft_check_color_parameters(char *line, t_init *init, char **elements)
 	int		g;
 	int		b;
 
-	i = 0;
-	while (line[i] == ' ')
-		i++;
-	j = i;
-	i++;
+	ft_first_chars(&i, &j, line);
 	while (i < ft_strlen(line))
 	{
 		while (line[i] == ' ')
@@ -93,9 +89,7 @@ void	ft_check_color_parameters(char *line, t_init *init, char **elements)
 		b = ft_check_color(line, &i, init, elements);
 		while (line[i] == ' ')
 			i++;
-		if (line[i] && line[i] != '\n')
-			ft_free_col_param(line, elements, init);
-		else
+		if (ft_check_col_norme(line, i, elements, init))
 			break ;
 	}
 	if (line[j] == 'C')

@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:11:59 by baubigna          #+#    #+#             */
-/*   Updated: 2022/09/21 11:12:01 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/09/23 11:52:44 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,39 +29,39 @@ void	ft_step_texture(t_init *init)
 void	ft_texture_coord(t_init *init)
 {
 	if (init->t.dir == 0)
-		init->t.x = (int)(init->t.wallX * (double)init->textures[3].width);
+		init->t.x = (int)(init->t.wallx * (double)init->textures[3].width);
 	else if (init->t.dir == 1)
 	{
-		init->t.x = (int)(init->t.wallX * (double)init->textures[1].width);
+		init->t.x = (int)(init->t.wallx * (double)init->textures[1].width);
 		init->t.x = init->textures[1].width - init->t.x - 1;
 	}
 	if (init->t.dir == 2)
 	{
-		init->t.x = (int)(init->t.wallX * (double)init->textures[2].width);
+		init->t.x = (int)(init->t.wallx * (double)init->textures[2].width);
 		init->t.x = init->textures[2].width - init->t.x - 1;
 	}
 	else
-		init->t.x = (int)(init->t.wallX * (double)init->textures[0].width);
+		init->t.x = (int)(init->t.wallx * (double)init->textures[0].width);
 	ft_step_texture(init);
 }
 
 void	ft_which_texture(t_init *init, int side)
 {
-	if (!side && init->game->rayDirX < 0)
+	if (!side && init->game->raydirx < 0)
 		init->t.dir = 3;
-	else if (!side && init->game->rayDirX >= 0)
+	else if (!side && init->game->raydirx >= 0)
 		init->t.dir = 1;
-	else if (side && init->game->rayDirY < 0)
+	else if (side && init->game->raydiry < 0)
 		init->t.dir = 2;
 	else
 		init->t.dir = 0;
 	if (!side)
-		init->t.wallX = init->game->posY + init->game->perpWallDist \
-		* init->game->rayDirY;
+		init->t.wallx = init->game->posy + init->game->perpwalldist \
+		* init->game->raydiry;
 	else
-		init->t.wallX = init->game->posX + init->game->perpWallDist \
-		* init->game->rayDirX;
-	init->t.wallX -= floor(init->t.wallX);
+		init->t.wallx = init->game->posx + init->game->perpwalldist \
+		* init->game->raydirx;
+	init->t.wallx -= floor(init->t.wallx);
 	ft_texture_coord(init);
 }
 
@@ -84,7 +84,7 @@ void	ft_draw_vertical_line(t_init *init, int i, int side)
 {
 	int	j;
 
-	init->line = init->height / init->game->perpWallDist;
+	init->line = init->height / init->game->perpwalldist;
 	init->game->linelow = - (init->line / 2) + init->height / 2;
 	if (init->game->linelow < 0)
 		init->game->linelow = 0;

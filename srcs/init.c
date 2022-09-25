@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:12:21 by baubigna          #+#    #+#             */
-/*   Updated: 2022/09/23 10:58:18 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:15:56 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ void	ft_init_plane(t_init *init, char c)
 {
 	if (c == 'N')
 	{
-		init->game->planeX = 1;
-		init->game->planeY = 0;
+		init->game->planex = 1;
+		init->game->planey = 0;
 	}
 	else if (c == 'W')
 	{
-		init->game->planeX = 0;
-		init->game->planeY = -1;
+		init->game->planex = 0;
+		init->game->planey = -1;
 	}
 	else if (c == 'S')
 	{
-		init->game->planeX = -1;
-		init->game->planeY = 0;
+		init->game->planex = -1;
+		init->game->planey = 0;
 	}
 	else if (c == 'E')
 	{
-		init->game->planeX = 0;
-		init->game->planeY = 1;
+		init->game->planex = 0;
+		init->game->planey = 1;
 	}
 }
 
@@ -40,23 +40,23 @@ void	ft_init_dir(t_init *init, char c)
 {
 	if (c == 'N')
 	{
-		init->game->dirX = 0;
-		init->game->dirY = -1;
+		init->game->dirx = 0;
+		init->game->diry = -1;
 	}
 	else if (c == 'W')
 	{
-		init->game->dirX = -1;
-		init->game->dirY = 0;
+		init->game->dirx = -1;
+		init->game->diry = 0;
 	}
 	else if (c == 'S')
 	{
-		init->game->dirX = 0;
-		init->game->dirY = 1;
+		init->game->dirx = 0;
+		init->game->diry = 1;
 	}
 	else if (c == 'E')
 	{
-		init->game->dirX = 1;
-		init->game->dirY = 0;
+		init->game->dirx = 1;
+		init->game->diry = 0;
 	}
 }
 
@@ -79,7 +79,7 @@ void	ft_init_init(t_init *init)
 	if (!init->game)
 		ft_error("Error\nMemory for init->game could not be allocated\n", init);
 	init->game->time = 0;
-	init->game->oldTime = 0;
+	init->game->oldtime = 0;
 	ft_init_moves(init);
 }
 
@@ -87,6 +87,7 @@ void	ft_get_map_info(char *line, t_init *init)
 {
 	char	**elements;
 
+	ft_check_spaces(line, init);
 	elements = ft_split(line, " ");
 	if (ft_strcmp("NO", elements[0]) && ft_strcmp("WE", elements[0])
 		&& ft_strcmp("SO", elements[0]) && ft_strcmp("EA", elements[0])

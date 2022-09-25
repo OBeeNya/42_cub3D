@@ -6,11 +6,30 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:12:42 by baubigna          #+#    #+#             */
-/*   Updated: 2022/09/21 15:21:35 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:19:29 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
+
+void	ft_check_spaces(char *line, t_init *init)
+{
+	char	**elements;
+
+	elements = ft_split(line, " ");
+	if ((!ft_strcmp("NO", elements[0]) || !ft_strcmp("WE", elements[0])
+			|| !ft_strcmp("SO", elements[0]) || !ft_strcmp("EA", elements[0])
+			|| !ft_strcmp("F", elements[0]) || !ft_strcmp("C", elements[0]))
+		&& ((line && line[0] && line[0] == ' ') || (line
+				&& line[ft_strlen(line) - 2]
+				&& line[ft_strlen(line) - 2] == ' ')))
+	{
+		ft_free_split(elements);
+		free(line);
+		ft_error("Error\nSpaces at the beginning or end of line\n", init);
+	}
+	ft_free_split(elements);
+}
 
 int	ft_color_convert(int r, int g, int b)
 {
@@ -60,9 +79,9 @@ void	ft_load_textures(t_init *init)
 
 void	ft_init_mlx(t_init *init)
 {
-	init->map[(int)init->game->posY][(int)init->game->posX] = '0';
-	init->game->posX += 0.5;
-	init->game->posY += 0.5;
+	init->map[(int)init->game->posy][(int)init->game->posx] = '0';
+	init->game->posx += 0.5;
+	init->game->posy += 0.5;
 	init->mlx = mlx_init();
 	if (!init->mlx)
 		ft_error("Error\nCould not initialize mlx\n", init);

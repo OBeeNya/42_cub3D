@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:12:26 by baubigna          #+#    #+#             */
-/*   Updated: 2022/09/21 11:12:27 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/09/23 11:48:58 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 void	ft_step_and_sidedist(t_init *init, double *stepX, double *stepY)
 {
-	if (init->game->rayDirX < 0)
+	if (init->game->raydirx < 0)
 	{
 		*stepX = -1;
-		init->game->sideDistX = (init->game->posX - init->game->mapX)
-			* init->game->deltaDistX;
+		init->game->sidedistx = (init->game->posx - init->game->mapx)
+			* init->game->deltadistx;
 	}
 	else
 	{
 		*stepX = 1;
-		init->game->sideDistX = (init->game->mapX + 1.0 - init->game->posX)
-			* init->game->deltaDistX;
+		init->game->sidedistx = (init->game->mapx + 1.0 - init->game->posx)
+			* init->game->deltadistx;
 	}
-	if (init->game->rayDirY < 0)
+	if (init->game->raydiry < 0)
 	{
 		*stepY = -1;
-		init->game->sideDistY = (init->game->posY - init->game->mapY)
-			* init->game->deltaDistY;
+		init->game->sidedisty = (init->game->posy - init->game->mapy)
+			* init->game->deltadisty;
 	}
 	else
 	{
 		*stepY = 1;
-		init->game->sideDistY = (init->game->mapY + 1.0 - init->game->posY)
-			* init->game->deltaDistY;
+		init->game->sidedisty = (init->game->mapy + 1.0 - init->game->posy)
+			* init->game->deltadisty;
 	}
 }
 
@@ -47,19 +47,19 @@ void	ft_dda(t_init *init, int *side, double stepX, double stepY)
 	hit = 0;
 	while (!hit)
 	{
-		if (init->game->sideDistX < init->game->sideDistY)
+		if (init->game->sidedistx < init->game->sidedisty)
 		{
-			init->game->sideDistX += init->game->deltaDistX;
-			init->game->mapX += (int)stepX;
+			init->game->sidedistx += init->game->deltadistx;
+			init->game->mapx += (int)stepX;
 			*side = 0;
 		}
 		else
 		{
-			init->game->sideDistY += init->game->deltaDistY;
-			init->game->mapY += (int)stepY;
+			init->game->sidedisty += init->game->deltadisty;
+			init->game->mapy += (int)stepY;
 			*side = 1;
 		}
-		if (init->map[init->game->mapY][init->game->mapX] == '1')
+		if (init->map[init->game->mapy][init->game->mapx] == '1')
 			hit++;
 	}
 }
@@ -67,36 +67,36 @@ void	ft_dda(t_init *init, int *side, double stepX, double stepY)
 void	ft_perp_dist(t_init *init, int side, int stepx, int stepy)
 {
 	if (!side)
-		init->game->perpWallDist = ((double)init->game->mapX - \
-				init->game->posX + (1 - stepx) / 2) / init->game->rayDirX;
+		init->game->perpwalldist = ((double)init->game->mapx - \
+				init->game->posx + (1 - stepx) / 2) / init->game->raydirx;
 	else
-		init->game->perpWallDist = ((double)init->game->mapY - \
-				init->game->posY + (1 - stepy) / 2) / init->game->rayDirY;
+		init->game->perpwalldist = ((double)init->game->mapy - \
+				init->game->posy + (1 - stepy) / 2) / init->game->raydiry;
 }
 
 void	ft_init_vectors(t_init *init, int i)
 {
-	init->game->cameraX = 2 * i / (double)init->width - 1;
-	init->game->rayDirX = init->game->dirX + init->game->planeX
-		* init->game->cameraX;
-	init->game->rayDirY = init->game->dirY + init->game->planeY
-		* init->game->cameraX;
-	init->game->mapX = (int)init->game->posX;
-	init->game->mapY = (int)init->game->posY;
-	if (!init->game->rayDirY)
-		init->game->deltaDistX = 0;
-	else if (!init->game->rayDirX)
-		init->game->deltaDistX = 1;
+	init->game->camerax = 2 * i / (double)init->width - 1;
+	init->game->raydirx = init->game->dirx + init->game->planex
+		* init->game->camerax;
+	init->game->raydiry = init->game->diry + init->game->planey
+		* init->game->camerax;
+	init->game->mapx = (int)init->game->posx;
+	init->game->mapy = (int)init->game->posy;
+	if (!init->game->raydiry)
+		init->game->deltadistx = 0;
+	else if (!init->game->raydirx)
+		init->game->deltadistx = 1;
 	else
-		init->game->deltaDistX = sqrt(1 + pow(init->game->rayDirY, 2) \
-		/ pow(init->game->rayDirX, 2));
-	if (!init->game->rayDirX)
-		init->game->deltaDistY = 0;
-	else if (!init->game->rayDirY)
-		init->game->deltaDistY = 1;
+		init->game->deltadistx = sqrt(1 + pow(init->game->raydiry, 2) \
+		/ pow(init->game->raydirx, 2));
+	if (!init->game->raydirx)
+		init->game->deltadisty = 0;
+	else if (!init->game->raydiry)
+		init->game->deltadisty = 1;
 	else
-		init->game->deltaDistY = sqrt(1 + pow(init->game->rayDirX, 2) \
-		/ pow(init->game->rayDirY, 2));
+		init->game->deltadisty = sqrt(1 + pow(init->game->raydirx, 2) \
+		/ pow(init->game->raydiry, 2));
 }
 
 int	ft_game_loop(t_init *init)

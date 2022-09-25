@@ -6,7 +6,7 @@
 /*   By: baubigna <baubigna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 11:11:34 by baubigna          #+#    #+#             */
-/*   Updated: 2022/09/21 17:52:10 by baubigna         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:59:33 by baubigna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 # include <stdlib.h>
 # include "../libft/libft.h"
 
-typedef enum	orientation
+typedef enum orientation
 {
 	NORTH,
 	WEST,
 	SOUTH,
 	EAST
-} t_orientation;
+}	t_orientation;
 
 typedef enum movements
 {
@@ -38,8 +38,7 @@ typedef enum movements
 	MOVE_L = 97,
 	CAMERA_R = 65363,
 	CAMERA_L = 65361
-
-} t_movements;
+}	t_movements;
 
 typedef struct s_texture
 {
@@ -58,27 +57,27 @@ typedef struct s_game
 {
 	int		linelow;
 	int		linehigh;
-	int		mapX;
-	int		mapY;
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
-	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
-	double	sideDistX;
-	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
-	double	perpWallDist;
+	int		mapx;
+	int		mapy;
+	double	posx;
+	double	posy;
+	double	dirx;
+	double	diry;
+	double	planex;
+	double	planey;
+	double	camerax;
+	double	raydirx;
+	double	raydiry;
+	double	sidedistx;
+	double	sidedisty;
+	double	deltadistx;
+	double	deltadisty;
+	double	perpwalldist;
 	double	time;
-	double	oldTime;
-	double	frameTime;
-	double	moveSpeed;
-	double	rotSpeed;
+	double	oldtime;
+	double	frametime;
+	double	movespeed;
+	double	rotspeed;
 }	t_game;
 
 typedef struct s_t
@@ -86,7 +85,7 @@ typedef struct s_t
 	int		dir;
 	int		x;
 	int		y;
-	double	wallX;
+	double	wallx;
 	double	step;
 	double	pos;
 }	t_t;
@@ -99,7 +98,7 @@ typedef struct s_moves
 	int	move_r;
 	int	camera_r;
 	int	camera_l;
-} t_moves;
+}	t_moves;
 
 typedef struct s_init
 {
@@ -193,6 +192,7 @@ void	ft_cpy_map_lines(char *filepath, int fd, int nb, t_init *init);
 void	ft_cpy_map(int fd, t_init *init, char *filepath);
 
 /* mlx.c */
+void	ft_check_spaces(char *line, t_init *init);
 int		ft_color_convert(int r, int g, int b);
 void	ft_get_textures_address(t_init *init);
 void	ft_load_textures(t_init *init);
@@ -212,6 +212,8 @@ void	ft_move_right(t_init *init, t_game *game);
 void	ft_move_left(t_init *init, t_game *game);
 
 /* camera_movements.c */
+int		ft_check_col_norme(char *line, size_t i, char **elements, t_init *init);
+void	ft_first_chars(size_t *i, size_t *j, char *line);
 void	ft_dispatch_map_func(char *filepath, int fd, int nb, t_init *init);
 void	ft_move_camera_left(t_init *init, t_game *game, \
 double prevplanex, double oldplanex);
@@ -223,6 +225,5 @@ void	ft_check_map_line(t_init *init, int i, int j);
 void	ft_orientation_id_cmp(char **elements, t_init *init, char *line);
 void	ft_store_textures_paths(char **elements, t_init *init, char *path);
 void	ft_check_texture_parameters(char **elements, t_init *init, char *line);
-
 
 #endif
