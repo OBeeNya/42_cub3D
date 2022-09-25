@@ -1,11 +1,1 @@
-# cub3d
-
-TO DO:
-
-- rotation de la camera
-
-- test du parsing
-
-- invalid read sur invalid map
-
-- mouvement bloque dans certaines situations
+This project is inspired by the world-famous Wolfenstein 3D game, which was the first FPS ever. It enabled me to explore ray-casting. My goal was to make a dynamic view inside a maze, in which I had to find my way.
